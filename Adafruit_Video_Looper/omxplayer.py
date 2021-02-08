@@ -83,6 +83,12 @@ class OMXPlayer:
             return False
         self._process.poll()
         return self._process.returncode is None
+    
+    def pause(self):
+        os.system('./dbuscontrol.sh pause')
+        
+    def resume(self):
+        os.system('./dbuscontrol.sh play')
 
     def stop(self, block_timeout_sec=0):
         """Stop the video player.  block_timeout_sec is how many seconds to
