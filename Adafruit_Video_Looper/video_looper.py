@@ -346,6 +346,14 @@ class VideoLooper:
                         self._print("s was pressed. stopping...")
                         self._playbackStopped = True
                         self._player.stop(3)
+                if event.key == pygame.K_SPACE:
+                    if self._playbackStopped:
+                        self._print("SPACE was pressed. starting...")
+                        self._playbackStopped = False
+                    else:
+                        self._print("SPACE was pressed. stopping...")
+                        self._playbackStopped = True
+                        self._player.stop(3)
 
 
     def run(self):
