@@ -85,12 +85,14 @@ class OMXPlayer:
         return self._process.returncode is None
     
     def pause(self):
-        subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'pause'])
-        os.system('/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh pause')
+        subprocess.Popen(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'pause'],
+                                         stdout=open(os.devnull, 'wb'),
+                                         close_fds=True)
         
     def resume(self):
-        subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'play'])
-        os.system('/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh play')
+        subprocess.Popen(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'play'],
+                                         stdout=open(os.devnull, 'wb'),
+                                         close_fds=True)
 
     def stop(self, block_timeout_sec=0):
         """Stop the video player.  block_timeout_sec is how many seconds to
