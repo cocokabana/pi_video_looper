@@ -79,6 +79,8 @@ class MyOMXPlayer:
         #                                 stdout=open(os.devnull, 'wb'),
         #                                 close_fds=True)
         self._player = OMXPlayer(movie.filename)
+        if vol is not 0:
+            self._player.set_volume(str(vol))
         
     def is_playing(self):
         """Return true if the video player is running, false otherwise."""
@@ -88,7 +90,7 @@ class MyOMXPlayer:
         #return self._process.returncode is None
         if self._player is None:
             return False
-        if self._player.playback_status() is "Stopped"
+        if self._player.playback_status() is "Stopped":
             return False
         #return self._player.is_playing()
         return True
