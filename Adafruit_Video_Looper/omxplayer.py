@@ -98,10 +98,12 @@ class MyOMXPlayer:
             return False
         try:
             if self._player.playback_status() is "Stopped":
+                self._player = None
                 return False
             else:
                 return True
-        except OMXPlayerDeadError err:
+        except:
+            self._player = None
             return False
         #if self._player.playback_status() is "Stopped":
         #    return False
