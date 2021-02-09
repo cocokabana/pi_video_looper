@@ -54,7 +54,7 @@ class MyOMXPlayer:
         """Return list of supported file extensions."""
         return self._extensions
     
-    def player_stop():
+    def player_stop(self):
         self._player = None
 
     def play(self, movie, loop=None, vol=0):
