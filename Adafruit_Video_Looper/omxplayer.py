@@ -59,14 +59,15 @@ class MyOMXPlayer:
         self.stop(3)  # Up to 3 second delay to let the old player stop.
         # Assemble list of arguments.
         #args = ['omxplayer']
-        #args.extend(['-o', self._sound])  # Add sound arguments.
-        #args.extend(self._extra_args)     # Add extra arguments from config.
-        #if vol is not 0:
-        #    args.extend(['--vol', str(vol)])
-        #if loop is None:
-        #    loop = movie.repeats
-        #if loop <= -1:
-        #    args.append('--loop')  # Add loop parameter if necessary.
+        args = []
+        args.extend(['-o', self._sound])  # Add sound arguments.
+        args.extend(self._extra_args)     # Add extra arguments from config.
+        if vol is not 0:
+            args.extend(['--vol', str(vol)])
+        if loop is None:
+            loop = movie.repeats
+        if loop <= -1:
+            args.append('--loop')  # Add loop parameter if necessary.
         #if self._show_titles and movie.title:
         #    srt_path = os.path.join(self._get_temp_directory(), 'video_looper.srt')
         #    with open(srt_path, 'w') as f:
@@ -78,9 +79,10 @@ class MyOMXPlayer:
         #self._process = subprocess.Popen(args,
         #                                 stdout=open(os.devnull, 'wb'),
         #                                 close_fds=True)
-        self._player = OMXPlayer(movie.filename)
-        if vol is not 0:
-            self._player.set_volume(str(vol))
+#        OMXPlayer('path.mp4', args='--no-osd --no-keys -b')
+        self._player = OMXPlayer(movie.filename, dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=args)
+       # if vol is not 0:
+        #    self._player.set_volume(str(vol))
         
     def is_playing(self):
         """Return true if the video player is running, false otherwise."""
