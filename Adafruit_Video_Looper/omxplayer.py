@@ -78,7 +78,7 @@ class MyOMXPlayer:
         #self._process = subprocess.Popen(args,
         #                                 stdout=open(os.devnull, 'wb'),
         #                                 close_fds=True)
-        self._player = OMXPlayer(movie)
+        self._player = OMXPlayer(movie.filename)
 
     def is_playing(self):
         """Return true if the video player is running, false otherwise."""
