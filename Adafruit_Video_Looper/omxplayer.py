@@ -78,7 +78,7 @@ class MyOMXPlayer:
         #self._process = subprocess.Popen(args,
         #                                 stdout=open(os.devnull, 'wb'),
         #                                 close_fds=True)
-        self_player = OMXPlayer(movie)
+        self._player = OMXPlayer(movie)
 
     def is_playing(self):
         """Return true if the video player is running, false otherwise."""
@@ -92,11 +92,13 @@ class MyOMXPlayer:
     
     def pause(self):
         #subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'pause'])
-        self._player.play_pause()
+        if self._player is not None:
+            self._player.play_pause()
         
     def resume(self):
         #subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'play'])
-        self._player.play_pause()
+        if self._player is not None:
+            self._player.play_pause()
 
     def stop(self, block_timeout_sec=0):
         """Stop the video player.  block_timeout_sec is how many seconds to
@@ -116,7 +118,8 @@ class MyOMXPlayer:
         #    time.sleep(0)
         # Let the process be garbage collected.
         #self._process = None
-        self._player.quit()
+        if self._player is not None:
+            self._player.quit()
         self._player = None
 
     @staticmethod
