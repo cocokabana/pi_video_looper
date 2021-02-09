@@ -8,6 +8,7 @@ import tempfile
 import time
 
 from .alsa_config import parse_hw_device
+from omxplayer.player import OMXPlayer
 
 class MyOMXPlayer:
 
@@ -16,6 +17,7 @@ class MyOMXPlayer:
         background.
         """
         self._process = None
+        self._player = None
         self._temp_directory = None
         self._load_config(config)
 
@@ -56,60 +58,66 @@ class MyOMXPlayer:
         """Play the provided movie file, optionally looping it repeatedly."""
         self.stop(3)  # Up to 3 second delay to let the old player stop.
         # Assemble list of arguments.
-        args = ['omxplayer']
-        args.extend(['-o', self._sound])  # Add sound arguments.
-        args.extend(self._extra_args)     # Add extra arguments from config.
-        if vol is not 0:
-            args.extend(['--vol', str(vol)])
-        if loop is None:
-            loop = movie.repeats
-        if loop <= -1:
-            args.append('--loop')  # Add loop parameter if necessary.
-        if self._show_titles and movie.title:
-            srt_path = os.path.join(self._get_temp_directory(), 'video_looper.srt')
-            with open(srt_path, 'w') as f:
-                f.write(self._subtitle_header)
-                f.write(movie.title)
-            args.extend(['--subtitles', srt_path])
-        args.append(movie.filename)       # Add movie file path.
+        #args = ['omxplayer']
+        #args.extend(['-o', self._sound])  # Add sound arguments.
+        #args.extend(self._extra_args)     # Add extra arguments from config.
+        #if vol is not 0:
+        #    args.extend(['--vol', str(vol)])
+        #if loop is None:
+        #    loop = movie.repeats
+        #if loop <= -1:
+        #    args.append('--loop')  # Add loop parameter if necessary.
+        #if self._show_titles and movie.title:
+        #    srt_path = os.path.join(self._get_temp_directory(), 'video_looper.srt')
+        #    with open(srt_path, 'w') as f:
+        #        f.write(self._subtitle_header)
+        #        f.write(movie.title)
+        #    args.extend(['--subtitles', srt_path])
+        #args.append(movie.filename)       # Add movie file path.
         # Run omxplayer process and direct standard output to /dev/null.
-        self._process = subprocess.Popen(args,
-                                         stdout=open(os.devnull, 'wb'),
-                                         close_fds=True)
+        #self._process = subprocess.Popen(args,
+        #                                 stdout=open(os.devnull, 'wb'),
+        #                                 close_fds=True)
+        self_player = OMXPlayer(movie)
 
     def is_playing(self):
         """Return true if the video player is running, false otherwise."""
-        if self._process is None:
+        #if self._process is None:
+        #    return False
+        #self._process.poll()
+        #return self._process.returncode is None
+        if self._player is None:
             return False
-        self._process.poll()
-        return self._process.returncode is None
+        return self._player.is_playing()
     
     def pause(self):
         #subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'pause'])
-        return False
+        self._player.play_pause()
         
     def resume(self):
         #subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'play'])
-        return False
+        self._player.play_pause()
 
     def stop(self, block_timeout_sec=0):
         """Stop the video player.  block_timeout_sec is how many seconds to
         block waiting for the player to stop before moving on.
         """
         # Stop the player if it's running.
-        if self._process is not None and self._process.returncode is None:
+        #if self._process is not None and self._process.returncode is None:
             # There are a couple processes used by omxplayer, so kill both
             # with a pkill command.
-            subprocess.call(['pkill', '-9', 'omxplayer'])
+        #    subprocess.call(['pkill', '-9', 'omxplayer'])
         # If a blocking timeout was specified, wait up to that amount of time
         # for the process to stop.
-        start = time.time()
-        while self._process is not None and self._process.returncode is None:
-            if (time.time() - start) >= block_timeout_sec:
-                break
-            time.sleep(0)
+        #start = time.time()
+        #while self._process is not None and self._process.returncode is None:
+        #    if (time.time() - start) >= block_timeout_sec:
+        #        break
+        #    time.sleep(0)
         # Let the process be garbage collected.
-        self._process = None
+        #self._process = None
+        self._player.quit()
+        self._player = None
 
     @staticmethod
     def can_loop_count():
