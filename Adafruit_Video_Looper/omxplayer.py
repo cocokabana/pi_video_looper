@@ -84,7 +84,7 @@ class MyOMXPlayer:
         #                                 close_fds=True)
 #        OMXPlayer('path.mp4', args='--no-osd --no-keys -b')
         self._player = OMXPlayer(movie.filename, dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=args)
-        self._player.stopEvent = player_stop
+        self._player.stopEvent = self.player_stop
        # if vol is not 0:
         #    self._player.set_volume(str(vol))
         
