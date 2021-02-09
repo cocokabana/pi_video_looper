@@ -97,7 +97,8 @@ class MyOMXPlayer:
         #return self._process.returncode is None
         if self._player is None:
             return False
-        return self._player.is_playing()
+        #return self._player.is_playing()
+        return True
     
     def pause(self):
         #subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'pause'])
