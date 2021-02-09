@@ -416,6 +416,7 @@ class VideoLooper:
         """Shut down the program"""
         self._print("quitting Video Looper")
         self._running = False
+        time.sleep(1)
         if self._player is not None:
             self._player.stop()
         pygame.quit()
