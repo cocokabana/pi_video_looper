@@ -96,6 +96,13 @@ class MyOMXPlayer:
         #return self._process.returncode is None
         if self._player is None:
             return False
+        try:
+            if self._player.playback_status() is "Stopped":
+                return False
+            else:
+                return True
+        except OMXPlayerDeadError err:
+            return False
         #if self._player.playback_status() is "Stopped":
         #    return False
         #return self._player.is_playing()
