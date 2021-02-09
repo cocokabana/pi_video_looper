@@ -53,6 +53,9 @@ class MyOMXPlayer:
     def supported_extensions(self):
         """Return list of supported file extensions."""
         return self._extensions
+    
+    def player_stop():
+        self._player = None
 
     def play(self, movie, loop=None, vol=0):
         """Play the provided movie file, optionally looping it repeatedly."""
@@ -81,6 +84,7 @@ class MyOMXPlayer:
         #                                 close_fds=True)
 #        OMXPlayer('path.mp4', args='--no-osd --no-keys -b')
         self._player = OMXPlayer(movie.filename, dbus_name='org.mpris.MediaPlayer2.omxplayer1', args=args)
+        self._player.stopEvent = player_stop
        # if vol is not 0:
         #    self._player.set_volume(str(vol))
         
@@ -92,8 +96,8 @@ class MyOMXPlayer:
         #return self._process.returncode is None
         if self._player is None:
             return False
-        if self._player.playback_status() is "Stopped":
-            return False
+        #if self._player.playback_status() is "Stopped":
+        #    return False
         #return self._player.is_playing()
         return True
     
