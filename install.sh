@@ -12,7 +12,7 @@ fi
 
 echo "Installing dependencies..."
 echo "=========================="
-apt update && apt -y install python3 python3-pip python3-pygame supervisor omxplayer ntfs-3g exfat-fuse
+apt update && apt -y install python3 python3-pip python3-pygame supervisor omxplayer ntfs-3g exfat-fuse libdbus-1-3 libdbus-1-dev
 
 if [ "$*" != "no_hello_video" ]
 then
