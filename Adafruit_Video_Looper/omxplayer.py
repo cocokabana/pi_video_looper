@@ -9,7 +9,7 @@ import time
 
 from .alsa_config import parse_hw_device
 
-class OMXPlayer:
+class MyOMXPlayer:
 
     def __init__(self, config):
         """Create an instance of a video player that runs omxplayer in the
@@ -85,10 +85,12 @@ class OMXPlayer:
         return self._process.returncode is None
     
     def pause(self):
-        subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'pause'])
+        #subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'pause'])
+        return False
         
     def resume(self):
-        subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'play'])
+        #subprocess.call(['/home/pi/pi_video_looper/Adafruit_Video_Looper/dbuscontrol.sh', 'play'])
+        return False
 
     def stop(self, block_timeout_sec=0):
         """Stop the video player.  block_timeout_sec is how many seconds to
@@ -116,4 +118,4 @@ class OMXPlayer:
 
 def create_player(config):
     """Create new video player based on omxplayer."""
-    return OMXPlayer(config)
+    return MyOMXPlayer(config)
